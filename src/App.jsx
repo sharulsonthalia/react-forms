@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import SignUpForm from './components/SignUpForm'
 import Authenticate from './components/Authenticate'
@@ -7,7 +7,9 @@ const App = () => {
 
 const [username, setUsername] = useState("")
 const [password, setPassword] = useState("")
+const [token, setToken] = useState(null)
 const [error, setError] = useState(null)
+
 
 const usernameInputChange = (event) => {
   console.log(event.target.value);
@@ -34,6 +36,8 @@ const passwordInputChange = (event) => {
 
     const data = await response.json()
     console.log(data)
+    setToken(data.token)
+    return token
 
     } catch (error) {
       console.log(error)
@@ -41,10 +45,13 @@ const passwordInputChange = (event) => {
     }
   }
 
+  useEffect(() => {
+    console.log(token) 
+  }, [token])
+  
   return (
       <>
-        <SignUpForm />
-        <Authenticate />
+        <SignUpForm setToken = {setToken} token = {token} />
         <form onSubmit = {handlesubmit}>
           <label>
             Username: <input 
@@ -68,6 +75,9 @@ const passwordInputChange = (event) => {
 
           <button type="submit">Submit</button>
         </form>
+
+        <Authenticate setToken = {setToken} token = {token} />
+
       </>
   )
 }

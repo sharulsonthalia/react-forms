@@ -1,7 +1,9 @@
-const SignUpForm = () => {
+const SignUpForm = (setToken, token) => {
 
     return (
+        <>
         <h2>Sign Up</h2>
+        </>
     )
 
 }
